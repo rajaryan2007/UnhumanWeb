@@ -67,7 +67,7 @@ export default function Home() {
                 playsInline
                 className="w-full h-full object-cover pt-10"
               >
-                <source src="/demo.mp4" type="video/mp4" />
+                <source src="/demo.webm" type="video/webm" />
               </video>
             </div>
           </div>
