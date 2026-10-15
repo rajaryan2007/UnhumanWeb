@@ -3,40 +3,136 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   UHE design tokens — monochrome tool palette, one signal accent.
-   Values are bare HSL triplets so tailwind's hsl(var(--x)) works.
+   UHE design tokens — paper and ink, with one signal colour.
+   Paper is the default ground; `.dark` flips the same tokens, and `.ink`
+   binds the ink values to a single band (the capture chapter) inside
+   either theme. Values are bare HSL triplets so tailwind's
+   hsl(var(--x)) works, and nesting resolves against the element that
+   uses it — that is what makes `.ink` a scope rather than a copy.
    ------------------------------------------------------------------ */
 @layer base {
   :root {
-    --background: 216 16% 5%;
-    --foreground: 210 16% 92%;
+    color-scheme: light;
 
-    --card: 216 16% 7%;
-    --card-foreground: 210 16% 92%;
-    --popover: 216 16% 7%;
-    --popover-foreground: 210 16% 92%;
+    --background: 40 13% 91%; /* #EBE9E5 paper */
+    --foreground: 60 3% 8%; /* #151514 ink   */
 
-    /* signal lime */
-    --primary: 76 88% 62%;
-    --primary-foreground: 216 30% 8%;
+    /* Recessed surfaces: dark enough below the paper to be seen (1.16:1). */
+    --card: 40 12% 84%;
+    --card-foreground: 60 3% 8%;
+    --popover: 40 16% 95%;
+    --popover-foreground: 60 3% 8%;
 
-    --secondary: 216 12% 13%;
-    --secondary-foreground: 210 16% 92%;
+    --primary: 60 3% 8%;
+    --primary-foreground: 40 13% 91%;
 
-    --muted: 216 12% 13%;
-    --muted-foreground: 214 10% 58%;
+    --secondary: 40 10% 84%;
+    --secondary-foreground: 60 3% 8%;
+
+    --muted: 40 11% 88%;
+    --muted-foreground: 40 4% 40%;
+
+    /* Signal lime, as the engine's own palette uses it: fills carry ink,
+       marks and type use the deep olive so they survive on paper. */
+    --accent: 76 88% 62%;
+    --accent-foreground: 60 3% 8%;
+    --accent-text: 76 55% 26%;
+
+    --warn: 30 82% 31%;
+    --destructive: 2 62% 40%;
+    --destructive-foreground: 40 13% 91%;
+
+    /* Rules strong enough to divide a page (1.35:1 against paper). */
+    --border: 40 10% 78%;
+    --input: 40 10% 78%;
+    --ring: 76 55% 26%;
+
+    /* Shell blocks are ink in both themes: a terminal on the page. */
+    --code: 60 3% 6.5%;
+    --code-foreground: 43 20% 93%;
+
+    --radius: 0.25rem;
+
+    /* Resolved colours for components that read CSS vars directly (the skyline canvas). */
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-border: hsl(var(--border));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --background: 60 3% 6.5%; /* #111110 */
+    --foreground: 43 20% 93%; /* #F1EFEA */
+
+    --card: 60 3% 10%;
+    --card-foreground: 43 20% 93%;
+    --popover: 60 4% 17%;
+    --popover-foreground: 43 20% 93%;
+
+    --primary: 43 20% 93%;
+    --primary-foreground: 60 3% 6.5%;
+
+    --secondary: 60 3% 13%;
+    --secondary-foreground: 43 20% 93%;
+
+    --muted: 60 3% 13%;
+    --muted-foreground: 40 5% 62%;
 
     --accent: 76 88% 62%;
-    --accent-foreground: 216 30% 8%;
+    --accent-foreground: 60 3% 8%;
+    /* on ink the lime is legible as type */
+    --accent-text: 76 88% 62%;
 
+    --warn: 38 88% 64%;
     --destructive: 2 70% 58%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 43 20% 93%;
 
-    --border: 214 14% 16%;
-    --input: 214 14% 16%;
+    --border: 50 6% 18%;
+    --input: 50 6% 18%;
     --ring: 76 88% 62%;
 
-    --radius: 0.375rem;
+    --code: 60 3% 4%;
+    --code-foreground: 43 20% 93%;
+  }
+
+  /* The ink chapter: one band of the paper page (or of the ink page) where
+     the capture lives, so the dark footage is native rather than a hole. */
+  .ink {
+    color-scheme: dark;
+
+    --background: 60 3% 6.5%;
+    --foreground: 43 20% 93%;
+    --card: 60 3% 10%;
+    --card-foreground: 43 20% 93%;
+    --popover: 60 4% 17%;
+    --popover-foreground: 43 20% 93%;
+    --primary: 43 20% 93%;
+    --primary-foreground: 60 3% 6.5%;
+    --secondary: 60 3% 13%;
+    --secondary-foreground: 43 20% 93%;
+    --muted: 60 3% 13%;
+    --muted-foreground: 40 5% 62%;
+    --accent: 76 88% 62%;
+    --accent-foreground: 60 3% 8%;
+    --accent-text: 76 88% 62%;
+    --warn: 38 88% 64%;
+    --destructive: 2 70% 58%;
+    --destructive-foreground: 43 20% 93%;
+    --border: 50 6% 18%;
+    --input: 50 6% 18%;
+    --ring: 76 88% 62%;
+
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  /* In dark mode the page is already ink, so the chapter rises to graphite
+     instead of sinking: the band still reads, and the black frame sits on it. */
+  .dark .ink {
+    --background: 60 3% 9%;
+    --card: 60 3% 12%;
   }
 
   * {
@@ -50,13 +146,15 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "Geist", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Selected text inverts, like ink blotted over the page. */
   ::selection {
-    background: hsl(var(--primary) / 0.28);
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
   }
 
   ::-webkit-scrollbar {
@@ -77,90 +175,93 @@
 }
 
 @layer components {
-  /* Labelled micro-type used for every label, index and unit in the UI. */
+  /* Micro-type used for every label, index and unit in the UI. */
   .mono-label {
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    @apply text-[11px] uppercase tracking-[0.16em] text-muted-foreground;
+    @apply text-[11px] uppercase tracking-[0.14em] text-muted-foreground;
   }
 
   .mono {
     font-family: "JetBrains Mono", ui-monospace, monospace;
   }
 
-  /* Hairline blueprint grid: 12px minor, 96px major, fading toward the edges. */
-  .bp-grid {
-    background-image:
-      linear-gradient(to right, hsl(0 0% 100% / 0.028) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(0 0% 100% / 0.028) 1px, transparent 1px),
-      linear-gradient(to right, hsl(0 0% 100% / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(0 0% 100% / 0.05) 1px, transparent 1px);
-    background-size:
-      12px 12px,
-      12px 12px,
-      96px 96px,
-      96px 96px;
-    -webkit-mask-image: radial-gradient(ellipse 120% 80% at 50% 0%, #000 35%, transparent 100%);
-    mask-image: radial-gradient(ellipse 120% 80% at 50% 0%, #000 35%, transparent 100%);
+  /* Italic accent face — one phrase per heading, no more. */
+  .accent {
+    font-family: "Instrument Serif", "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
 
-  /* Panel: flat surface, hairline edge, no decorative glow. */
+  /* Panel: a real surface, one step off the page. */
   .panel {
-    @apply rounded-md border border-white/[0.07] bg-white/[0.015];
+    @apply rounded-lg border border-border bg-card;
   }
 
-  /* Corner brackets — the "instrument frame" cue, used sparingly. */
-  .ticks {
-    position: relative;
-  }
-  .ticks::before,
-  .ticks::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: hsl(var(--primary) / 0.55);
-    pointer-events: none;
-  }
-  .ticks::before {
-    top: -1px;
-    left: -1px;
-    border-top: 1px solid;
-    border-left: 1px solid;
-  }
-  .ticks::after {
-    bottom: -1px;
-    right: -1px;
-    border-bottom: 1px solid;
-    border-right: 1px solid;
+  /* The mark is drawn in white, so it inverts on paper. */
+  .brand-mark {
+    @apply invert dark:invert-0;
   }
 
-  /* Viewport overlay for the capture window: faint scanlines + vignette. */
-  .viewport-overlay {
-    background-image:
-      repeating-linear-gradient(
-        to bottom,
-        hsl(0 0% 100% / 0.025) 0px,
-        hsl(0 0% 100% / 0.025) 1px,
-        transparent 1px,
-        transparent 3px
-      ),
-      radial-gradient(ellipse 90% 70% at 50% 45%, transparent 40%, hsl(216 60% 3% / 0.55) 100%);
+  /* Frame-pipeline diagram. Nodes sit a step off the panel they live in, so they
+     read as objects; they invert like the pill buttons on hover/focus. The amber
+     stub keeps its own colours and dashes. */
+  .dg-node {
+    cursor: pointer;
   }
-
-  /* Measurement ticks along a viewport edge. */
-  .ruler-y {
-    background-image: repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.18) 0 1px,
-      transparent 1px 10px
-    );
+  .dg-node .dg-box {
+    fill: hsl(var(--popover));
+    stroke: hsl(var(--border));
+    stroke-width: 1;
+    transition: fill 0.15s ease, stroke 0.15s ease;
   }
-  .ruler-x {
-    background-image: repeating-linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.18) 0 1px,
-      transparent 1px 10px
-    );
+  .dg-node .dg-title {
+    fill: hsl(var(--foreground));
+  }
+  .dg-node .dg-sub {
+    fill: hsl(var(--muted-foreground));
+  }
+  .dg-node .dg-go {
+    fill: hsl(var(--muted-foreground));
+    opacity: 0.45;
+    transition: opacity 0.15s ease, fill 0.15s ease;
+  }
+  .dg-node:hover .dg-box,
+  .dg-node:focus-visible .dg-box {
+    fill: hsl(var(--foreground));
+    stroke: hsl(var(--foreground));
+  }
+  .dg-node:hover .dg-title,
+  .dg-node:focus-visible .dg-title {
+    fill: hsl(var(--background));
+  }
+  .dg-node:hover .dg-sub,
+  .dg-node:focus-visible .dg-sub {
+    fill: hsl(var(--background) / 0.72);
+  }
+  .dg-node:hover .dg-go,
+  .dg-node:focus-visible .dg-go {
+    fill: hsl(var(--background));
+    opacity: 1;
+  }
+  .dg-node:focus-visible {
+    outline: none;
+  }
+  .dg-node:focus-visible .dg-box {
+    stroke: hsl(var(--accent));
+    stroke-width: 2;
+  }
+  .dg-node.dg-stub .dg-box {
+    fill: hsl(var(--background));
+    stroke: hsl(var(--warn));
+    stroke-opacity: 0.55;
+    stroke-dasharray: 4 4;
+  }
+  .dg-node.dg-stub:hover .dg-box,
+  .dg-node.dg-stub:focus-visible .dg-box {
+    fill: hsl(var(--warn));
+    stroke: hsl(var(--warn));
+    stroke-opacity: 1;
+    stroke-dasharray: none;
   }
 
   .blink {
@@ -190,9 +291,21 @@
     box-shadow: 0 0 8px currentColor;
   }
 
-  /* Code block with a prompt strip, used by the docs quickstart. */
+  /* Shell session: ink in both themes, so a page of paper still has terminals.
+     Its children get the ink token set, which is what keeps the prompt lime and
+     the comments legible whatever the page theme is. */
   .code-block {
-    @apply overflow-x-auto rounded-md border border-white/[0.07] bg-[#0d1013] p-4 text-[13px] leading-6;
+    --foreground: 43 20% 93%;
+    --card: 60 3% 10%;
+    --border: 50 6% 18%;
+    --muted-foreground: 40 5% 62%;
+    --accent: 76 88% 62%;
+    --accent-text: 76 88% 62%;
+
+    @apply overflow-x-auto rounded-lg border border-border p-4 text-[13px] leading-6;
+    background: hsl(var(--code));
+    color: hsl(var(--code-foreground));
+    border-color: hsl(var(--code-foreground) / 0.14);
     font-family: "JetBrains Mono", ui-monospace, monospace;
   }
 }
@@ -203,10 +316,10 @@
   }
   .link-underline {
     text-decoration: underline;
-    text-decoration-color: hsl(var(--primary) / 0.4);
+    text-decoration-color: hsl(var(--foreground) / 0.35);
     text-underline-offset: 3px;
   }
   .link-underline:hover {
-    text-decoration-color: hsl(var(--primary));
+    text-decoration-color: hsl(var(--accent));
   }
 }

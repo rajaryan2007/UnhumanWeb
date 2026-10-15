@@ -75,15 +75,15 @@ const libraries = [
 
 /** Status chips use the engine's own vocabulary (docs/ROADMAP.md). */
 const tones = {
-  built: "text-primary border-primary/30 bg-primary/10",
-  progress: "text-amber-400 border-amber-400/30 bg-amber-400/10",
-  soon: "text-white/50 border-white/15 bg-white/[0.03]",
+  built: "text-foreground border-foreground/25 bg-foreground/[0.04]",
+  progress: "text-warn border-warn/30 bg-warn/10",
+  soon: "text-muted-foreground border-border bg-foreground/[0.02]",
 } as const;
 
 function Chip({ label, tone }: { label: string; tone: keyof typeof tones }) {
   return (
     <span
-      className={`mono-label inline-flex whitespace-nowrap rounded border px-2 py-0.5 ${tones[tone]}`}
+      className={`mono-label inline-flex whitespace-nowrap rounded-full border px-2.5 py-0.5 ${tones[tone]}`}
     >
       {label}
     </span>
@@ -167,10 +167,10 @@ function DocLink({
       href={href}
       target="_blank"
       rel="noreferrer"
-      className={`link-underline inline-flex items-baseline gap-1 text-white/90 hover:text-white ${className}`}
+      className={`link-underline inline-flex items-baseline gap-1 text-foreground/90 hover:text-foreground ${className}`}
     >
       {children}
-      <ArrowUpRight className="h-3 w-3 shrink-0 text-primary/70" />
+      <ArrowUpRight className="h-3 w-3 shrink-0 text-foreground/40" />
     </a>
   );
 }
@@ -189,11 +189,11 @@ function Section({
   children?: ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-white/[0.07] pt-8 pb-4">
+    <section id={id} className="scroll-mt-20 border-t border-border pt-8 pb-4">
       <header className="mb-5">
         <div className="flex items-baseline gap-3">
-          <MonoLabel className="text-primary">{index}</MonoLabel>
-          <h2 className="text-lg font-semibold uppercase tracking-[0.02em] text-white md:text-xl">
+          <MonoLabel>{index}</MonoLabel>
+          <h2 className="text-xl font-medium tracking-tight text-foreground md:text-2xl">
             {title}
           </h2>
         </div>
@@ -208,10 +208,10 @@ function Section({
 
 function KeyValue({ rows }: { rows: (string | ReactNode)[][] }) {
   return (
-    <dl className="divide-y divide-white/[0.07] border-y border-white/[0.07]">
+    <dl className="divide-y divide-border border-y border-border">
       {rows.map(([key, value], i) => (
         <div key={i} className="grid gap-1 py-3 sm:grid-cols-[220px_1fr] sm:gap-6">
-          <dt className="mono text-[13px] text-white/60">{key}</dt>
+          <dt className="mono text-[13px] text-foreground/60">{key}</dt>
           <dd className="text-sm leading-relaxed text-muted-foreground">{value}</dd>
         </div>
       ))}
@@ -228,20 +228,20 @@ function Table({ head, rows }: { head: string[]; rows: ReactNode[][] }) {
             {head.map((cell) => (
               <th
                 key={cell}
-                className="mono-label border-b border-white/[0.07] pb-2 pr-6 font-normal text-white/50"
+                className="mono-label border-b border-border pb-2 pr-6 font-normal text-foreground/50"
               >
                 {cell}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/[0.07]">
+        <tbody className="divide-y divide-border">
           {rows.map((row, i) => (
             <tr key={i} className="align-top">
               {row.map((cell, j) => (
                 <td
                   key={j}
-                  className={`py-3 pr-6 leading-relaxed ${j === 0 ? "mono text-[13px] text-white/85" : "text-muted-foreground"}`}
+                  className={`py-3 pr-6 leading-relaxed ${j === 0 ? "mono text-[13px] text-foreground/85" : "text-muted-foreground"}`}
                 >
                   {cell}
                 </td>
@@ -258,22 +258,22 @@ export default function Docs() {
   return (
     <div className="mx-auto max-w-6xl px-5 pb-8 md:px-8">
       <header className="pt-16 pb-10">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-white/[0.07] pb-4">
-          <MonoLabel className="text-white/40">~ / unhuman / docs</MonoLabel>
-          <MonoLabel className="text-white/20">branch</MonoLabel>
-          <span className="mono text-[11px] text-white/70">master</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border pb-4">
+          <MonoLabel className="text-foreground/40">~ / unhuman / docs</MonoLabel>
+          <MonoLabel className="text-foreground/20">branch</MonoLabel>
+          <span className="mono text-[11px] text-foreground/70">master</span>
           <span className="ml-auto flex flex-wrap items-center gap-x-4 gap-y-1">
             {["C++23", "Vulkan 1.1+", "MIT"].map((chip) => (
-              <MonoLabel key={chip} className="text-white/40">
+              <MonoLabel key={chip} className="text-foreground/40">
                 {chip}
               </MonoLabel>
             ))}
           </span>
         </div>
 
-        <MonoLabel className="mt-8 block text-white/40">Documentation</MonoLabel>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl">
-          Unhuman Engine, as it actually is.
+        <MonoLabel className="mt-8 block text-foreground/40">Documentation</MonoLabel>
+        <h1 className="mt-4 text-3xl font-medium tracking-tight text-foreground md:text-4xl">
+          Unhuman Engine, <span className="accent">as it actually is.</span>
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
           Build it, read the tree, and know which parts are finished. These pages track{" "}
@@ -284,15 +284,15 @@ export default function Docs() {
 
       <div className="grid gap-12 lg:grid-cols-[200px_1fr] lg:gap-16">
         <nav aria-label="Documentation sections" className="lg:sticky lg:top-20 lg:self-start">
-          <MonoLabel className="text-white/40">Sections</MonoLabel>
+          <MonoLabel className="text-foreground/40">Sections</MonoLabel>
           <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-2 lg:block lg:space-y-2.5">
             {sections.map((section, i) => (
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="mono-label inline-flex items-baseline gap-2 transition-colors hover:text-white lg:flex"
+                  className="mono-label inline-flex items-baseline gap-2 transition-colors hover:text-foreground lg:flex"
                 >
-                  <span className="text-white/25">{String(i).padStart(2, "0")}</span>
+                  <span className="text-foreground/25">{String(i).padStart(2, "0")}</span>
                   {section.label}
                 </a>
               </li>
@@ -302,7 +302,7 @@ export default function Docs() {
             href={links.repo}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 hidden items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-white lg:inline-flex"
+            className="mt-6 hidden items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground lg:inline-flex"
           >
             <ExternalLink className="h-3.5 w-3.5" />
             Open the repository
@@ -318,7 +318,7 @@ export default function Docs() {
           >
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="panel p-5">
-                <MonoLabel className="text-primary">Non-negotiable</MonoLabel>
+                <MonoLabel>Non-negotiable</MonoLabel>
                 <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
                   <li>Vulkan 1.1–1.2 floor: a design that silently needs 1.3+ is wrong.</li>
                   <li>Linux primary, Windows supported; Android only to keep the fallback path honest.</li>
@@ -327,7 +327,7 @@ export default function Docs() {
                 </ul>
               </div>
               <div className="panel p-5">
-                <MonoLabel className="text-primary">Deliberately not yet</MonoLabel>
+                <MonoLabel>Deliberately not yet</MonoLabel>
                 <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted-foreground">
                   <li>A shipping engine for third parties: no marketplace, no scripting sandbox, no editor polish budget.</li>
                   <li>Multi-backend: the RHI is thin so a second backend is possible, not so it gets written now.</li>
@@ -375,7 +375,7 @@ export default function Docs() {
             />
             <p className="text-sm leading-relaxed text-muted-foreground">
               Debugging with clangd? Both paths symlink{" "}
-              <span className="mono text-white/80">compile_commands.json</span> into the repository
+              <span className="mono text-foreground/80">compile_commands.json</span> into the repository
               root. Sanitized binaries keep their own directory, so a sanitizer build never
               overwrites a normal one.
             </p>
@@ -476,7 +476,7 @@ export default function Docs() {
               head={["Stage", "Work", "Status", "Issues"]}
               rows={roadmap.map(([order, stage, work, label, tone, issues]) => [
                 <span key={stage}>
-                  <span className="mono mr-2 text-white/30">{order}</span>
+                  <span className="mono mr-2 text-foreground/30">{order}</span>
                   {stage}
                 </span>,
                 work,
@@ -489,7 +489,7 @@ export default function Docs() {
                         href={`${REPO}/issues/${issue}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="link-underline text-white/70 hover:text-white"
+                        className="link-underline text-foreground/70 hover:text-foreground"
                       >
                         #{issue}
                       </a>
@@ -513,7 +513,7 @@ export default function Docs() {
             <Table
               head={["Planned file", "Will cover", "Status"]}
               rows={docsToWrite.map(([file, what]) => [
-                <span key={file} className="mono text-[13px] text-white/80">
+                <span key={file} className="mono text-[13px] text-foreground/80">
                   {file}
                 </span>,
                 what,
@@ -536,7 +536,7 @@ export default function Docs() {
             <ul className="space-y-3">
               {contributing.map((rule) => (
                 <li key={rule} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                  <span className="mono mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary/70" />
+                  <span className="mono mt-1.5 h-1 w-1 shrink-0 rounded-full bg-foreground/40" />
                   {rule}
                 </li>
               ))}
@@ -563,7 +563,7 @@ export default function Docs() {
                   {file}
                 </DocLink>,
                 what,
-                label && tone ? <Chip key={`${file}-s`} label={label} tone={tone} /> : <span className="text-white/25">reference</span>,
+                label && tone ? <Chip key={`${file}-s`} label={label} tone={tone} /> : <span className="text-foreground/25">reference</span>,
               ])}
             />
           </Section>
@@ -579,7 +579,7 @@ export default function Docs() {
                 href={links.latestRelease}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded border border-primary/30 bg-primary/10 px-3.5 py-2 text-sm text-primary transition-colors hover:border-primary/60"
+                className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/85"
               >
                 v0.01-alpha
                 <ArrowUpRight className="h-3.5 w-3.5" />
@@ -588,7 +588,7 @@ export default function Docs() {
                 href={links.releases}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded border border-white/[0.12] bg-white/[0.02] px-3.5 py-2 text-sm text-white transition-colors hover:border-white/25"
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-4 py-2 text-sm transition-colors hover:bg-foreground hover:text-background"
               >
                 All releases
               </a>
@@ -596,7 +596,7 @@ export default function Docs() {
                 href={links.discord}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded border border-white/[0.12] bg-white/[0.02] px-3.5 py-2 text-sm text-white transition-colors hover:border-white/25"
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/20 px-4 py-2 text-sm transition-colors hover:bg-foreground hover:text-background"
               >
                 Discord
               </a>

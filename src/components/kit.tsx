@@ -25,21 +25,22 @@ export function MonoLabel({
 export function SectionHeading({
   index,
   title,
+  aside,
   children,
   className,
 }: {
   index: string;
   title: string;
+  aside?: ReactNode;
   children?: ReactNode;
   className?: string;
 }) {
   return (
-    <header className={cn("mb-6 border-b border-white/[0.07] pb-4", className)}>
-      <div className="flex items-baseline gap-3">
-        <MonoLabel className="text-primary">{index}</MonoLabel>
-        <h2 className="text-xl font-semibold uppercase tracking-[0.02em] text-white md:text-2xl">
-          {title}
-        </h2>
+    <header className={cn("mb-6 border-b border-border pb-4", className)}>
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+        <MonoLabel>{index}</MonoLabel>
+        <h2 className="text-xl font-medium tracking-tight text-foreground md:text-2xl">{title}</h2>
+        {aside ? <div className="ml-auto">{aside}</div> : null}
       </div>
       {children ? (
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">{children}</p>
@@ -61,8 +62,8 @@ export function CodeBlock({
   return (
     <figure className={cn("panel overflow-hidden", className)}>
       {caption ? (
-        <figcaption className="flex items-center gap-2 border-b border-white/[0.07] bg-white/[0.02] px-4 py-2">
-          <span className="status-dot text-primary/70" />
+        <figcaption className="flex items-center gap-2 border-b border-border bg-muted/40 px-4 py-2">
+          <span className="status-dot text-muted-foreground/70" />
           <MonoLabel>{caption}</MonoLabel>
         </figcaption>
       ) : null}
@@ -71,10 +72,10 @@ export function CodeBlock({
           {lines.map((line, i) => (
             <span key={i} className="block whitespace-pre">
               {line.startsWith("#") || line.trim() === "" ? (
-                <span className="text-muted-foreground/60">{line}</span>
+                <span className="opacity-50">{line}</span>
               ) : (
                 <>
-                  <span className="select-none text-primary/50">$ </span>
+                  <span className="select-none text-accent-text">$ </span>
                   {line}
                 </>
               )}

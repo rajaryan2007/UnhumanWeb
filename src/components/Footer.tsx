@@ -34,14 +34,14 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-white/[0.07]">
+    <footer className="mt-24 border-t border-border">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.2fr_repeat(3,1fr)] md:px-8">
         <div>
           <div className="flex items-center gap-2.5">
-            <img src="/icon.png" alt="" className="h-7 w-auto opacity-95" />
+            <img src="/icon.png" alt="" className="brand-mark h-6 w-auto" />
             <span className="flex items-baseline gap-1.5">
-              <span className="text-[15px] font-semibold tracking-tight text-white">unhuman</span>
-              <MonoLabel className="text-primary/80">engine</MonoLabel>
+              <span className="text-[15px] font-medium tracking-tight text-foreground">unhuman</span>
+              <MonoLabel>engine</MonoLabel>
             </span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
@@ -50,15 +50,15 @@ export function Footer() {
           </p>
           <Link
             to="/docs"
-            className="mono-label mt-5 inline-block text-primary transition-colors hover:text-white"
+            className="link-underline mono-label mt-5 inline-block text-foreground"
           >
-            Read the docs →
+            Read the docs
           </Link>
         </div>
 
         {columns.map((column) => (
           <nav key={column.title} aria-label={column.title}>
-            <MonoLabel className="text-white/70">{column.title}</MonoLabel>
+            <MonoLabel>{column.title}</MonoLabel>
             <ul className="mt-4 space-y-2.5">
               {column.items.map((item) => (
                 <li key={item.label}>
@@ -66,7 +66,7 @@ export function Footer() {
                     href={item.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-sm text-muted-foreground transition-colors hover:text-white"
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {item.label}
                   </a>
@@ -78,9 +78,9 @@ export function Footer() {
       </div>
 
       {/* Status bar — mirrors the engine's build string. */}
-      <div className="border-t border-white/[0.07] bg-white/[0.015]">
+      <div className="border-t border-border">
         <div className="mono-label mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-2 px-5 py-3 md:px-8">
-          <span className="flex items-center gap-2 text-primary">
+          <span className="flex items-center gap-2 text-foreground">
             <span className="status-dot" />
             {BUILD.version}
           </span>

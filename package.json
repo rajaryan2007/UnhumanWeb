@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "contributions": "node scripts/sync-contributions.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^13.3.0",
     "lucide-react": "^1.46.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
